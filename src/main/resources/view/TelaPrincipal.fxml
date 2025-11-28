@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="507.0" prefWidth="522.0" xmlns="http://javafx.com/javafx/25.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.AvaliacaoP2.controller.MainController">
+    <children>
+
+        <!-- Menu -->
+        <MenuBar>
+            <menus>
+                <Menu text="Arquivo" mnemonicParsing="false">
+                    <items>
+                        <MenuItem text="Fechar" mnemonicParsing="false"/>
+                    </items>
+                </Menu>
+                <Menu text="Ajuda" mnemonicParsing="false">
+                    <items>
+                        <MenuItem text="About" mnemonicParsing="false"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+
+        <!-- Título -->
+        <HBox alignment="CENTER" prefHeight="59.0" prefWidth="522.0">
+            <children>
+                <Label text="Cadastro Hospitalar de Pacientes" textAlignment="CENTER">
+                    <font>
+                        <Font name="Bodoni MT" size="35.0"/>
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+
+        <!-- Campos de cadastro -->
+        <VBox prefHeight="150.0" prefWidth="522.0">
+            <children>
+                <GridPane hgap="10" vgap="10">
+                    <padding>
+                        <Insets top="0" right="30" bottom="0" left="30"/>
+                    </padding>
+
+                    <!-- Colunas e linhas -->
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="100"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10" prefWidth="100"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10" prefHeight="30"/>
+                        <RowConstraints minHeight="10" prefHeight="30"/>
+                        <RowConstraints minHeight="10" prefHeight="30"/>
+                        <RowConstraints minHeight="10" prefHeight="30"/>
+                        <RowConstraints minHeight="10" prefHeight="30"/>
+                    </rowConstraints>
+
+                    <!-- Nome -->
+                    <Label text="Nome Completo" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNome" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <!-- CPF -->
+                    <Label text="CPF" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtCPF" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <!-- Data Nascimento -->
+                    <Label text="Data Nascimento" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtDN" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <!-- Telefone -->
+                    <Label text="Telefone" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtFone" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <!-- Campo de pesquisa -->
+                    <Label text="Pesquisar" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtPesquisar" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                </GridPane>
+            </children>
+        </VBox>
+
+        <!-- Botões -->
+        <HBox alignment="CENTER" spacing="10" prefHeight="69.0" prefWidth="522.0">
+            <children>
+                <Button text="Salvar" fx:id="btnSalvar" onAction="#onSalvarClick" prefWidth="115"/>
+                <Button text="Atualizar" fx:id="btnAtualizar" onAction="#onAtualizarCadastroClick" prefWidth="115"/>
+                <Button text="Pesquisar" fx:id="btnPesquisar" onAction="#onPesquisarClick" prefWidth="115"/>
+                <Button text="Deletar" fx:id="btnDeletar" onAction="#onDeletarClick" prefWidth="115"/>
+            </children>
+        </HBox>
+
+        <!-- Tabela de Pacientes -->
+        <TableView fx:id="tablePacientes" prefHeight="162.0" prefWidth="522.0">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="75"/>
+                <TableColumn fx:id="colNome" text="Nome" prefWidth="209"/>
+                <TableColumn fx:id="colCPF" text="CPF" prefWidth="114"/>
+                <TableColumn fx:id="colFone" text="Telefone" prefWidth="123"/>
+            </columns>
+        </TableView>
+
+    </children>
+</VBox>
