@@ -11,6 +11,9 @@ import org.AvaliacaoP2.model.Paciente;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 public class MainController {
 
@@ -139,6 +142,34 @@ public class MainController {
         atualizarTabela();
         limparCampos();
         System.out.println("Paciente deletado com sucesso!");
+    }
+
+    // ------------------ EXPORTAR CSV ------------------
+    @FXML
+    private void onExportarCSVClick() {
+        List<Paciente> lista = pacienteDAO.buscarPacientes();
+
+        try (FileWriter writer = new FileWriter("pacientes.csv")) {
+
+            // Cabeçalho
+            writer.write("ID;NOME;CPF;DATA_NASCIMENTO;TELEFONE\n");
+
+            for (Paciente p : lista) {
+                writer.write(
+                        p.getId() + ";" +
+                                p.getNome() + ";" +
+                                p.getCpf() + ";" +
+                                p.getDataNascimento() + ";" +
+                                p.getTelefone() + "\n"
+                );
+            }
+
+            System.out.println("Arquivo CSV gerado com sucesso!");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Erro ao gerar o CSV!");
+        }
     }
 
     // ------------------ AUXILIARES ------------------

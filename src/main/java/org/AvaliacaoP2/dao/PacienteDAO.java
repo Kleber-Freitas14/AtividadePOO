@@ -5,6 +5,8 @@ import org.hibernate.Transaction;
 import org.AvaliacaoP2.model.Paciente;
 import org.AvaliacaoP2.utils.HibernateUtil;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,13 +45,12 @@ public class PacienteDAO {
         }
     }
 
-    // === SEARCH BY NAME OR CPF (case-insensitive for name) ===
+    // === SEARCH BY NAME OR CPF ===
     public List<Paciente> buscarPorNome(String filtro) {
         if (filtro == null) filtro = "";
         String filtroLike = "%" + filtro.toLowerCase() + "%";
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // Busca por nome (case-insensitive) ou por CPF (contendo)
             String hql = "FROM Paciente p WHERE lower(p.nome) LIKE :filtro OR p.cpf LIKE :filtroCpf";
             return session.createQuery(hql, Paciente.class)
                     .setParameter("filtro", filtroLike)
@@ -74,7 +75,7 @@ public class PacienteDAO {
         }
     }
 
-    // === DELETE by id ===
+    // === DELETE ===
     public void deletarPaciente(int id) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -89,6 +90,35 @@ public class PacienteDAO {
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
             e.printStackTrace();
+        }
+    }
+
+    // ============================================================
+    // == EXPORTAÇÃO PARA CSV
+    // ============================================================
+
+    public boolean exportarPacientesParaCSV(String caminhoArquivo) {
+        List<Paciente> pacientes = buscarPacientes();
+
+        try (FileWriter writer = new FileWriter(caminhoArquivo)) {
+
+            // CABEÇALHO
+            writer.append("ID;Nome;CPF;Telefone;DataNascimento\n");
+
+            // LINHAS
+            for (Paciente p : pacientes) {
+                writer.append(String.valueOf(p.getId())).append(";")
+                        .append(p.getNome()).append(";")
+                        .append(p.getCpf()).append(";")
+                        .append(p.getTelefone()).append(";")
+                        .append(p.getDataNascimento().toString()).append("\n");
+            }
+
+            return true;
+
+        } catch (IOException e) {
+            System.out.println("Erro ao gerar CSV: " + e.getMessage());
+            return false;
         }
     }
 }
